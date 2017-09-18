@@ -1,4 +1,4 @@
-﻿#requires -version 5.1
+#requires -version 5.1
 #requires -module VMware.VimAutomation.Core
 Function Get-CDReport {
 
@@ -82,10 +82,9 @@ Function Get-CDReport {
       [bool]$InitialVIPropExist = $false
       Write-Verbose -Message '..Adding the BlueFolderPath custom VIProperty'
       
-      
-      #Pro admins will already have this. If you do not, we add it for this runtime.
+      #Pro admins will already have this. If not, we add it for this runtime.
       $runtimeProp = New-VIProperty -Name 'BlueFolderPath' -ObjectType 'VirtualMachine' -Value {
-          param($vm)
+        param($vm)
         function Get-ParentName{
               param($object)
                if($object.Folder){
