@@ -85,15 +85,17 @@ Function Get-CDReport {
          Write-Error -Message $Error[0].exception.Message
       }
       
-      $result = New-Object -TypeName PSCustomObject -Property @{
-        Name           = $vm.Name
-        Datastore      = $vm | Get-Datastore | Select-Object -ExpandProperty Name
-        IsoPath        = $CDReport.IsoPath       #most common
-        HostDevice     = $CDReport.HostDevice    #If any
-        RemoteDevice   = $CDReport.RemoteDevice  #If any
-        Tags           = ((Get-TagAssignment -Entity $vm | Select-Object -ExpandProperty Tag).Name -join ',')
+      If($CDReport.IsoPath -or $CDReport.HostDevice -or $CDReport.RemoteDevice){
+        $result = New-Object -TypeName PSCustomObject -Property @{
+          Name           = $vm.Name
+          Datastore      = $vm | Get-Datastore | Select-Object -ExpandProperty Name
+          IsoPath        = $CDReport.IsoPath       #most common
+          HostDevice     = $CDReport.HostDevice    #If any
+          RemoteDevice   = $CDReport.RemoteDevice  #If any
+          Tags           = ((Get-TagAssignment -Entity $vm | Select-Object -ExpandProperty Tag).Name -join ',')
+        }
+        $report += $result
       }
-      $report += $result
     }
   } #End Process
 
